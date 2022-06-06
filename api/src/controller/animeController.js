@@ -9,12 +9,8 @@ server.get('/anime', async (req,resp) => {
     const { nome } = await req.body;
     
     const resposta = await procurarAnime(nome) 
-    if(!resposta) {
-        throw new Error('Credenciais inválidas')
-    }
-        resp.send({
-        nome: nome
-    })}
+
+        resp.send(resposta)}
     catch(err) { 
         resp.status(404).send({
             erro: err.message
