@@ -5,9 +5,9 @@ export async function procurarAnime(nome) {
     SELECT id_anime 	id,
            nm_anime		nome	
     FROM   tb_anime
-    WHERE  id_anime    = ?
-    AND    nm_anime    = ?;`
-}
+    WHERE  nm_anime    = ?`;
 
-const [linhas] = await con.query(comando, [id, nome]);
-return linhas;
+
+const [linhas] = await con.query(comando, [nome]);
+return linhas[0];
+}
