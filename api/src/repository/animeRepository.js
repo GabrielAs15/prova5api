@@ -2,8 +2,10 @@ import { con } from './connection.js'
 
 export async function procurarAnime(id) { 
     const comando = `
-    SELECT id_anime 	id,
-           nm_anime		nome	
+    SELECT id_anime 	     id,
+           nm_anime		     nome
+           dt_lancamento     lancamento,
+           vl_avaliacao      avaliacao	
     FROM   tb_anime
     WHERE  id_anime    = ?`;
 
