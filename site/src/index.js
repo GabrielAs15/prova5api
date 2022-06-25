@@ -1,15 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './login/index.js'
 
-export default function Index(){
-  return(
-    <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />}/>
-          <Route path="/consulta"/>
-        </Routes>
-    </BrowserRouter>
-  )
-}
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Index from './Routes.js';
+
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Index/>
+  </React.StrictMode>
+);
+
 
 

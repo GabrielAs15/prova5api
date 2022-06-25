@@ -1,19 +1,21 @@
 import { Router } from 'express'
-import { enviarAnime, procurarAnime, procurarTodosAnimes } from '../repository/animeRepository.js';
+import { buscaPorNome, enviarAnime, procurarTodosAnimes } from '../repository/animeRepository.js';
 
 const server = Router();
 
-server.get('/anime/:id', async (req,resp) => {
+server.get('/anime/busca', async (req,resp) => {
    
-   try {
-    const id = req.params.id;
-    const resposta = await procurarAnime(id);
+    try {
+        const { nome } = req.query;
+        
+        const resposta = await buscaPorNome(nome);
 
-        resp.send({
-            anime: resposta
-        })}
-    catch(err) { 
-        resp.status(404).send({
+        if (resposta.length == 0)
+            resp.status(404).send([])
+        else
+            resp.send(resposta);
+    } catch (err) {
+        resp.status(400).send({
             erro: err.message
         })
     }
@@ -22,8 +24,16 @@ server.get('/anime/:id', async (req,resp) => {
 server.post('/anime', async (req,resp) => { 
     try {
         const nome = req.body;
-        const r = await enviarAnime(nome);
         
+        
+        if(!nome.nome )
+            throw new Error('Nome do Anime é obrigatório')
+        if(!nome.lancamento )
+            throw new Error('A data de lançamento é obrigatória')
+        if(!nome.avaliacao )
+            throw new Error('A avaliação é obrigatória')
+        
+        const r = await enviarAnime(nome);
         resp.send(r)
     }
     catch(err){
@@ -37,9 +47,7 @@ server.get('/anime/', async (req,resp) =>{
     try{
         const resposta = await procurarTodosAnimes();
 
-        resp.send({
-            anime: resposta
-        })
+        resp.send( resposta)
     }
     catch(err){
         resp.status(404).send({
